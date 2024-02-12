@@ -1,0 +1,2014 @@
+import java.io.Serializable;
+import java.rmi.Naming;
+
+public class TestCompositePattern {
+
+  public class static void main(String[] args){
+    HtmlTag parentTag = new HtmlParentElement("<html>");
+    parentTag.setStartTag("<html>");
+    parentTag.setEndTag("</html>");
+
+
+    HtmlTag p1 = new HtmlParentElement("<body>");
+    p1.setStartTag("<body>");
+    p1.setEndTag("</body>");
+
+    parentTag.addChildTag(p1);
+  
+  HtmlTag child1 = new HtmlElement("<P>");
+  child1.setStartTag("<P>");
+    child1.setEndTag("</P>");
+    child1.setTagBody("Testing html tag library");
+    p1.addChildTag(child1);
+
+    child1= new HtmlElement("<P>");
+    child1.setStartTag("<P>");
+    child1.setEndTag("</P>");
+    child1.setTagBody("Paragraph 2");
+p1.addChildTag(child1);
+
+    parentTag.generateHtml();
+    
+  
+  }
+}
+// Chapter 5 Bridge Design Pattern
+
+public interface Product {
+
+  public String productName();
+
+  public void produce();
+}
+
+public class CentralLocking implements Product {
+
+  private final String productName;
+
+  public CentralLocking(String productName) {
+    this.productName = productName;
+  }
+
+  @Override
+  public String productName() {
+    return productName;
+  }
+
+  @Override
+  public void produce() {
+    System.out.println("Producing Central Locking System");
+  }
+
+}
+
+//
+public class GearLocking implements Product {
+
+  private final String productName;
+
+  public GearLocking(String productName) {
+    this.productName = productName;
+  }
+
+  @Override
+  puplic String
+
+  productName(){
+    return productName;
+    
+  }
+
+  @Override
+  public void produce() {
+    System.out.println("Producing Gear Locking System");
+  }
+}
+
+//
+public abstract class Car {
+
+  private final Product product;
+  private final String carType;
+
+  public Car(Product product, String carType) {
+    this.product = product;
+    this.carType = carType;
+
+  }
+
+  public abstract void assemble();
+
+  public abstract void produceProduct();
+
+  public void printDetails() {
+    System.out.println("Car:" + carType + ", Product:" + product.productName());
+
+  }
+}
+
+//
+public class BigWheel extends Car {
+
+  private final Product product;
+  private final String carType;
+
+  public BigWheel(Product product, String carType) {
+    super(product, carType);
+    this.product = product;
+    this.carType = carType;
+  }
+
+  @Override
+  public void assemble() {
+    System.out.println("Assembling" + product.productName() + "for" + carType);
+  }
+
+  @Override
+  public void produceProduct() {
+    product.produce();
+    System.out.println("Modufing product" + product.productName() + "according to"
+        + carType);
+  }
+}
+
+public class Motoren extends Car {
+  private final Product product;
+  private final String carType;
+
+  public Motoren(Product product, String carType) {
+    super(product, carType);
+    this.product = product;
+    this.carType = catType;
+  }
+
+  @Override
+  public void assemble() {
+    System.out.println("Assembling" + product.productName() + "for" + carType);
+  }
+
+  @Override
+  public void produceProduct() {
+    product.produce();
+
+    System.out.println("Modifing product" + product.productName() + "according to" + carType);
+  }
+}
+
+//
+public class TestBridgePattern {
+
+  public static void main(String[] args){
+    Product product = new CentralLocking("Central Locking");
+    Product productt2 = new GearLocking("Gear Locking System");
+
+    Car car = new BigWheel(product, "Big Wheel xz model");
+    car.produceProduct();
+    car.assemble();
+    car.printDetails();
+
+     System.out.println()
+
+       car = new BigWheel(product2, "Big Wheel xz model");
+    car.produceProduct();
+    car.assemble();
+    car.printlnDetails();
+  
+  car.printDetails();
+  
+  car = new Motoren(product, "Big Wheel xz model");
+
+    car.produceProduct();
+    car.assemble();
+    car.printDetails();
+
+     System.out.println();
+
+    car  =new Motroren(product2, "Big Wheel xz model");
+    car.produceProduct();
+    car.assemble();
+    car.printDetails();
+       
+  }
+}
+
+// Chapter 6 Singleton Design Pattern
+
+public class SingletonEager {
+  public static SingletonEager sc = new SingletonEager();
+
+  private SingletonEager() {
+  }
+
+  public static SingletonEager getInstance() {
+    if (sc == null) {
+      sc = new SingletonLazy();
+    }
+
+    return sc;
+
+  }
+}
+//
+
+public class SingletonLazyMultithreaded {
+  private static SingletonLazyMultithreaded sc = null;
+
+  private SingletonLazyMultithreaded() {
+  }
+
+  public static synchronized SingletoneLazyMultithreaded getInstance() {
+    if (sc = null) {
+      sc = new SingletonLazyMultithreaded();
+    }
+    return sc;
+  }
+}
+
+//
+public class SingletonLazyDoubleCheck {
+
+  private static SingletonLazyMultithreaded sc = null;
+
+  private SingletonLazyMultithreaded(){}
+
+  public static SingletoneLazyDoubleCheck getInstance(){
+    
+    if(sc =  null){
+      
+      synchronized (SingletonLazyDoubleCheck.class)
+        if(sc = null){
+        sc = new SingletonLazyDoubleCheck();
+        }
+        }
+  }
+
+  return sc;
+}}
+//
+
+public class Singleton implements Serializable {
+
+  private static final long serialVersionUID = -1244652387389234L;
+  private static Singleton sc = new Singleton();
+
+  private Singleton() {
+    if (sc != null) {
+      throw new IllegalStateException("Already created");
+    }
+
+  }
+
+  public static Singleton getInstance() {
+    return sc;
+  }
+
+  private Object readResolve() throws objectStreamException {
+    return sc;
+
+  }
+
+  private Object writeReplace() throws ObjectStreamException {
+    return sc;
+
+  }
+
+  public Object clone() throws CloneNotSupportedException {
+    throw new CloneNotSupportedException("Singleton, cannot be  clonned");
+
+  }
+
+  private static Class getClass(String className) throws ClassNotFoundException {
+    ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+
+    if (classLoader == null)
+      classLoader = Singletone.class.getClassLoader();
+    return (classLoader.loadClass(classname));
+  }
+}
+//
+
+public class SingletonEnum {
+  public enum SingletoneEnum {
+    SINGLETON_ENUM;
+  }
+}
+// Chapter 7 Observer Design Pattern
+
+public interface Subject {
+
+  public void subscribeObservers(Observer observer);
+
+  public void unSubScribeObserber(Observer observer);
+
+  public void notifyObservers();
+
+  public String subjectDetails();
+
+}
+
+//
+public interface Observer {
+
+  public void update(String desc);
+
+  public void subscribe();
+
+  public void unSubScribe();
+
+}
+
+//
+public interface Commetary {
+  public void setDesc(String desc);
+}
+
+//
+public class CommentaryObject implements Subject, Commentary {
+
+  private final List<Observer> observers;
+  private String desc;
+  private final String subjectDetail;
+
+  public CommentaryObject(List<Observer> observers, String subjectDetail) {
+    this.observers = observer;
+    this.subjectDetails = subjectDetails;
+  }
+
+  @Override
+  public void subscribeObservers(Observer observer) {
+    observers.add(observer);
+
+  }
+
+  @Override
+  public void subscribeObserver(Observer observer) {
+    observer.add(observer);
+  }
+
+  @Override
+  public void unSubScribeObserber(Observer observer) {
+    int index = observers.indexOf(observer);
+    observers.remove(index);
+  }
+
+  @Override
+  public void notifyObservers() {
+    for (Observer observer : observers) {
+      observer.update(desc);
+    }
+
+  }
+
+  @Override
+  public void setDesc(String desc) {
+    this.desc = desc;
+    notifyObservers();
+  }
+
+  @Override
+  public String subjectDetails() {
+    return subjectDetails();
+  }
+}
+
+//
+public class SMSUsers implements Observer {
+  private final Subject subject;
+  private String desc;
+  private String userInfo;
+
+  public SMSUser(Subject subject, String userInfo){
+    if(subject == null){
+      throw new IllegalArgumentExeption("No Publisher found");
+      
+    }
+    this.subject = subject;
+    this.userInfo = userInfo;
+  }
+
+  @Override
+  public void update(String desc) {
+    this.desc = desc;
+    display();
+  }
+
+  private void display() {
+    System.out.println("[" + userInfo + "]:" + desc);
+  }
+
+  @Override
+  public void subscribe() {
+    System.out.println("Subscribing " + userInfo + "to" + subjectDetail() +
+        "...");
+    this.subject.subscibeObserver(this);
+    System.out.println("Subscribed successfully");
+
+  }
+
+  @Override
+  public void unSubScribe() {
+    System.out.println("Unsubscribing" + userInfo + "to" + subject.subjectDetails()
+        + "...");
+    this.subject.unSubScribeObserver(this);
+    System.out.println("Unsubscribe successfully");
+  }
+}
+
+//
+public class TestObserver {
+
+  public static void main(String[] args){
+    Subject subject = new CommentaryObject(new ArrayList<Observer>(), "Soccer
+                                           Match[2014AUG24]");
+    Observer observer = new SMSUsers(subject, "Adam Warner[New York]");
+    observer.subscribe();
+
+    System.out.println()
+
+      Observer observer2 = new SMSUers(subject, "Tim Ronney [London]");
+    observer2.subscribe();
+
+    Commentary cObject = ((Commentary) subject);
+    cObject.setDesc("Welcome to live Soccer match");
+    cObject.setDesc("Current score 0-0");
+
+    System.out.println()
+
+      observer.unSubScribe();
+
+    System.out.println()
+
+      cObject.setDesc("It's a goal");
+    cObject.setDesc("Current score 1-0");
+
+    System.out.println()
+
+      Observer observer3 = new SMSUsers(subject, "Marrie [Paris]");
+    observer3.subscribe();
+
+    System.out.println();
+
+    cObject.setDesc("It's another goal");
+  cObject.setDesc("Half-time score 2-0");
+    
+  }
+}
+
+//
+public class CommentaryObjectObservable extends Observable implements Commentary {
+
+  private String desc;
+  private final String subjectDetails;
+
+  public CommentaryObjectObservable(String subjectDetails) {
+    this.subjectDetails = subjectDetails;
+  }
+
+  @Override
+  public void setDesc(String desc) {
+    this.desc = desc;
+    setChanged();
+    notifyObservers(desc);
+
+  }
+
+  public String subjectDetails() {
+    return subjectDetails;
+  }
+}
+
+//
+public class SMSUserObserver implements java.util.Observer {
+
+  private String desc;
+  private final String userInfo;
+  private final Observable observable;
+
+  public SMSUserObserver(Observable observable, String userInfo) {
+    this.observable = observable;
+    this.userInfo = userInfo;
+  }
+
+  public void subscribe(){
+    System.out.println("Subscribing" + userInfo + "to" + ((
+      CommentaryObjectObservable((observer)).subjectDetails() + "...");
+    this.observable.addObserver(this);
+    System.out.println("Subscribed successfully");
+    
+  }
+
+  public void unSubScribe() {
+    System.out.println(
+        "Unsubscribing" + userInfo + "to" + ((CommentaryObjectObservable) (observable)).subjectDetails() + "...");
+    this.observable.deleteObserver(this);
+    System.out.println("Unsubscribe successfully");
+
+  }
+
+  @Override
+  public void update(Observable o, Object arg) {
+    desc = (String) args;
+    display();
+
+  }
+
+  private void display() {
+    System.out.println("[" + userInfo + "]:" + desc);
+  }
+}
+
+//
+public class Test {
+
+  public static void main(String[] args)  {
+    CommetaryObjectObservable obj = new CommentaryObjectObservable("Soccer"
+                           Match[20140AUG24]");
+    SMSUserObserver observer = new SMSUserObserver(obj, "Adam Warner[New 
+                                                   York]");
+    SMSUserObserver observer2 = new SMSUserObserver(obj, "Tim Ronney[London]");
+
+    observer.subscribe();
+    observer2.subscribe();
+    obj.setDesc("Welcome to live Soccer match");
+    obj.setDesc("Current score 0-0")
+  
+      observer.unSubScribe();
+
+    obj.setDesc("It's a goal");
+    obj.setDesc("Current score 1-0!");
+    
+      }
+}
+// Chapter 8 Mediator Design Pattern
+
+public interface MachineMediator {
+
+  public void start();
+
+  public void wash();
+
+  public void open();
+
+  public void closed();
+
+  public void on();
+
+  public void off();
+
+  public boolean checkTemperature(int temp);
+
+}
+
+public interface Colleague {
+  public void setMediator(MachineMediator mediator);
+}
+
+//
+public class Button implements Colleage {
+
+  private MachineMediator mediator;
+
+  @Override
+  public void setMediator(MachineMediator mediator) {
+    this.mediator = mediator;
+  }
+
+  public void press() {
+    System.out.println("Button pressed");
+    mediator.start();
+  }
+}
+
+//
+public class Machine implements Collegue {
+
+  private Matchine implements Colleage{
+
+  private MachineMediator mediator;
+
+  @Override
+  public void setMediator(MachineMediator mediator) {
+    this.mediator = mediator;
+  }
+
+  public void start() {
+    mediator.open();
+  }
+
+  public void wash() {
+    mediator.wash();
+  }
+}
+
+//
+public class Valve implements Colleague {
+  private MatchineMediator mediator;
+
+  @Override
+  public void setMediator(MachineMediator mediator) {
+    this.mediator = mediator;
+  }
+
+  public void open() {
+
+    System.out.println("Valve is opend...");
+    System.out.println("Filling water...");
+    mediator.closed();
+
+  }
+
+  public void closed() {
+    System.out.println("Valve is closed...");
+    mediator.on();
+  }
+
+}
+
+//
+public class Heater implements Colleague {
+
+  private MachineMediator mediator;
+
+  @Override
+  public void setMediator(MachineMediator mediator) {
+    this.mediator = mediator;
+
+  }
+
+  public void on(int temp) {
+    System.out.println("Heater is on...");
+    if (mediator.checkTemperature(temp)) {
+      System.out.println("Temperature is set to " + temp);
+
+      mediator.off();
+    }
+  }
+
+  public void off() {
+    System.out.println("Heater is off...");
+    mediator.wash();
+  }
+}
+
+//
+public class CottonMediator implements MachineMediator {
+
+  private final Machine machine;
+  private final Heater heater;
+  private final Motor motor;
+  private final Sensor sensor;
+  private final SilRemoval soilRemoval;
+  private final Valve valve;
+
+  public CottonMediator(Machine machine, Heater heater, Motor motor, Sensor sensor,
+      SoilRemoval soilRemoval, Valve valve) {
+    this.machine = machine;
+    this.heater = heater;
+    this.motor = motor;
+    this.sensor = sensor;
+    this.soilRemoval = soilRemoval;
+    this.valve = valve;
+
+    System.out.println("Setting up for COTTON program");
+
+  }
+
+  @Override
+  public void start() {
+    machine.start();
+  }
+
+  @Override
+  public void wash() {
+    motor.startMotor();
+    motor.rotateDrum(700);
+    System.out.println("Adding detergent");
+    soilRemoval.low();
+    System.out.println("Adding cotton");
+  }
+
+  @Override
+  public void open() {
+    valve.open();
+  }
+
+  @Override
+  public void closed() {
+    valve.closed();
+
+  }
+
+  @Override
+  public void on() {
+    heater.on(40);
+  }
+
+  @Override
+  public void off() {
+    heater.off();
+
+  }
+
+  @Override
+  public boolean checkTemperature(int temp) {
+    return sensor.checkTemperature(temp);
+  }
+}
+
+//
+public class Sensor {
+
+  public boolean checkTemperature(int temp) {
+    Sysytem.out.println("Temperature reached " + temp + " *C");
+    return true;
+  }
+}
+
+//
+public class SoilRemoval {
+
+  public void low() {
+    System.out.println("Setting Soil Removal to low");
+
+  }
+
+  public void medium() {
+    System.out.println("Setting Soil Removal to medium");
+  }
+
+  public void high() {
+    Sytem.out.println("Setting Soil Removal to high");
+  }
+}
+
+//
+public class DeniMediator implements MachineMediator {
+
+  private final Machine machine;
+  private final Heater heater;
+  private final Motor motor;
+  private final Sensor sensor;
+  private final SoilRemoval soilRemoval;
+  private final Valve valve;
+
+  public DenimMediator (Machine machine, Heater heater, Motor motor, Sensor sensor,
+                       SoilRemoval soilRemocal, Valve valve){
+    this.machine = machine;
+    this.heater = heater;
+    this.motor = motor;
+    this.sensor = sensor;
+    this.soilRemoval = soilRemoval;
+    this.valve  = valve;
+    
+    System.out.println("Setting up for DENIM program");
+  
+  }
+
+  @Override
+  public void start() {
+    machine.start();
+
+  }
+
+  @Override
+  public void wash() {
+
+    motor.startMotor();
+    motor.rotateDrum(1400);
+    System.out.println("Adding detergent");
+    soilRemoval.medium();
+    System.out.println("Adding softner");
+
+  }
+
+  @Override
+  public void open() {
+    valve.open();
+  }
+
+  @Override
+  public void closed() {
+    valve.closed();
+
+  }
+
+  @Override
+  public void on() {
+    heater.on(30);
+  }
+
+  @Override
+  public void off() {
+    heater.off();
+
+  }
+
+  @Override
+  public boolean checkTemperature(int temp) {
+    return sensor.checkTemperature(temp);
+  }
+
+}
+
+//
+public class TestMediator {
+
+  public static void main(String[] args) {
+    MachineMediator mediator = null;
+    Sensor sensor = new Sensor();
+    SoilRemoval soilRemoval = new SoilRemoval();
+    Motor motor = new Motor();
+    Machine machine = new Machine();
+    Heater heater = new Heater();
+    Valve valve = new Valve();
+
+    Button button = new Button();
+
+    mediator = new CottonMediator(machine, heater, motor, sensor, soilRemoval, valve);
+
+    button.setMediator(mediator);
+    machine.setMediator(mediator);
+    heater.setMediator(mediator);
+    valve.setMediator(mediator);
+    button.press();
+
+    mediator = new DenimMediator(machine, heater, motor, sensor, soilRemoval, valve);
+
+    button.setMediator(mediator);
+    machine.setMediator(mediator);
+    heater.setMediator(mediator);
+    valve.setMediator(mediator);
+
+    button.press();
+  }
+}
+// Chapter 9 Proxy Design Pattern
+
+public interface ReportGenerator extends Remote {
+
+  public String generateDailyReport() throw RemoteException;
+}
+
+//
+public class ReportGeneratorImpl extends UnicastRemoteObject implements ReportGenerator {
+
+  private static final long serialVersionUID = 7362895780523L;
+
+  protected ReportGeneratorImpl() throws RemoteException {
+
+  }
+
+  @Override
+  public String generateDailyReport() throws RemoteException {
+    StringBuilder sb = new StringBuilder();
+    sb.append("*******Location X Daily Report*******");
+    sb.append("\\n Location ID: 012");
+    sb.append("\\n Today's Date: " + new Date());
+    sb.append("\\n Total Price: $2534");
+    sb.append("\\n Net Profile: $1985");
+    sb.append("\\n *********");
+
+    return sb.toString();
+  }
+
+  public static void main(String[] args) {
+    try {
+      ReportGenerator reportGenerator = new ReportGeneratorImpl();
+      Naming.rebind("rmi://localhost:1099/ReportGenerator", reportGenerator);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+
+    }
+  }
+}
+
+//
+public class ReportGeneratorClient {
+
+  public static void main(String[] args) {
+    new ReportGeneratorClient().generateReport();
+  }
+
+  public void generateReport() {
+    try {
+      ReportGenerator reportGenerator = (ReportGenerator) Naming.lookup("rmi://localhost:1099/ReportGenerator");
+
+      System.out.println(reportGenerator.generateDailyReport());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}
+
+//
+public class Company {
+  private String companyName;
+  private String companyAddress;
+  private String companyContactNo;
+  private ContactList contactList;
+
+  public Company(String companyName, String companyAddress, String companyContactNo, ContactList contactList){
+    this.companyName = companyName;
+    this.companyAddress = companyAddress
+  this.companyContactNo = companyContactNo;
+    this.contactList = contactList;
+      
+  System.out.println("Company object created" );
+
+    
+  }
+
+  public String getCompanyName() {
+    return companyName;
+  }
+
+  public String getCompanyAddress() {
+    return companyAddress;
+  }
+
+  public String getCompanyContactNo() {
+    return companyContactNo;
+  }
+
+  public ContactList getContactList({
+    return contactList;
+    
+  }
+}
+
+//
+public interface ContactList {
+  public List<Employee> getEmployeeList();
+}
+
+//
+public class ContactListImpl implements ContactList {
+  @Override
+  publuc List<Employee> getEmployeeList(){
+    return getEmpList();
+  
+  
+  }
+
+  private static List<Employee> getEmpList() {
+    List<Employee> empList = new ArrayList<Employee>(5);
+
+    empList.add(new Employee("Employee A", 2565.55, " SE"));
+    empList.add(new Employee("Employee B", 22574, " Manager"));
+    empList.add(new Employee("Employee C", 3256.77, " SSE"));
+    empList.add(new Employee("Employee D", 4875.54, " SSE"));
+    empList.add(new Employee("Employee E", 2847.01, " SE"));
+    return empList;
+
+  }
+}
+
+//
+public class ContactListProcyImpl implements ContactList {
+
+  private ContactList contactList;
+
+@Override
+  public List<Employee> getEmloyeeList(){
+  if(contactList == null){
+    Sytem.out.println("Creating contact list and fetching list of
+                      employees...");
+    contactList = new ContactListImpl();
+  }
+  return contactList.getEmployeeList();
+  }
+}
+
+//
+public class Employee {
+  private String employeeName;
+
+  private double employeeSalary;
+
+  private String employeeDesignation;
+
+  public Employee(String employeeName, double employeeSalary,
+      String employeeDesignation) {
+    this.employeeName = employeeName;
+    this.employeeSalary = employeeSalary;
+    this.employeeDesignation = employeeDesignation;
+  }
+
+  public String getEmployeeName() {
+    return employeeName;
+  }
+
+  public double getEmployeeSalary() {
+    return employeeSalary;
+  }
+
+  public String getEmployeeDesignation() {
+    return employeeDesignation;
+  }
+
+  public String toString(){
+    return "Employee Name: " + employeeName + " Employee Salary: " + employeeSalary + " Employee Designation: "
+  }
+
+}
+
+public class TestVirtualProxy {
+  public static void main(String[] args){
+
+    ContactList contactList = new ContactListProxy();
+    Company company = new Company("XYZ", "123 Main St", "123-456-7890", contactList);
+
+    System.out.println("Company Name: " + company.getCompanyName());
+    System.out.println("Company Address: " + company.getCompanyAddress()");
+    System.out.println("Company Contact No: " +commany.getCompanyContactNo() );
+
+    System.out.println("Requesting for contact list");
+
+    contactList = company.getContactList();
+
+    List<Employee>empList = contactList.getEmployeeList();
+    for(Employee emp : empList){
+      System.out.println(emp);
+    }
+  }
+}
+
+//
+public interface Staff {
+
+  public boolean isOwner();
+
+  public void setReportGenerator(ReportGeneratorProxy reportGenerator);
+}
+
+//
+public class Employee implements Staff {
+  private ReportGeneratorProxy reportGenerator;
+
+  @Override
+  public void setReportGenerator(ReportGeneratorProxy reportGenerator) {
+    this.report.Generatore = reportGenerator;
+
+  }
+
+  @Override
+  public boolean isOwner() {
+    return false;
+  }
+
+  public String generateReport() {
+    try {
+      return reportGenerator.generateDailyReport();
+
+    } catch (Exception e) {
+      e.printStacktrace();
+    }
+    return "";
+  }
+}
+
+//
+public class Owner implements Staff {
+
+  private boolean isOwner = true;
+  private ReportGenerateProxy reportGenerator;
+
+  @Override
+  public void setReportGenerator(ReportGeneratorProxy reportGenerator) {
+    this.reportGenerator = reportGenerator;
+  }
+
+  @Override
+  public boolean isOwner() {
+    return isOwner;
+  }
+
+  public String generateReport() {
+    try {
+      return reportGenerator.generateDailyReport();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return "";
+  }
+}
+
+//
+public interface ReportGeneratorProxy {
+  public String generateDailyReport()
+}
+
+public class ReportGeneratorProtectProxy implements ReportGeneratorProxy {
+
+  ReportGenerator reportGenerator;
+  Staff staff;
+
+  public ReportGeneratorProxy( Staff staff){
+    this.staff = staff;
+  }
+
+  @Override
+  public String generateDailyReport() {
+    if (staff.isOwner()) {
+      ReportGenerator reportGenerator = null;
+
+      try {
+        ReportGenerator = (ReportGenerator) Naming.lookup("rmi://localhost:1099/ReportGenerator");
+        return reportGenerator.generateDailyReport();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      return "";
+    } else {
+      return "Not Authorized to view report";
+    }
+  }
+}
+
+//
+public class TestProtectionProxy {
+
+  public static void main(String[] args) {
+
+    Owner owner = new Owner();
+    ReportGeneratorProxy reportGenerator = new ReportGeneratorProtectionProxy(owner);
+
+    owner.setReportGenerator(reportGenerator);
+
+    Employee employee = new Employee();
+    reportGenerator = new ReportGeneratorProtectionProxy(employee);
+    employee.setReportGenerator(reportGenerator);
+    System.out.println("For owner:");
+    System.out.println(owner.generateDailyReport());
+    System.out.println("For employee:");
+    System.out.println(employee.generateDailyReport());
+  }
+}
+// Chapter 10 Chain of Responsibility Design Pattern
+
+public interface Handler {
+
+  public void setHandler(Handler handler);
+
+  public void process(File file);
+
+  public String getHandlerName();
+
+}
+
+//
+public class File {
+
+  private final String fileName;
+  private final String fileType;
+  private final String filePath;
+
+  public File(String fileName, String fileType, String filePath) {
+    this.fileName = fileName;
+    this.fileType = fileType;
+    this.filePath = filePath;
+  }
+
+  public String getFileName() {
+    return fileName;
+
+  }
+
+  public String getFileType() {
+    return fileType;
+  }
+
+  public String getFilePath() {
+    return filePath;
+  }
+
+}
+
+//
+public class TextFileHandler implements Handler {
+
+  private Handler handler;
+  private String handlerName;
+
+  public TextFileHandler(String handlerName) {
+    this.handlerName = handlerName;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Overide
+  public void process(File file){
+    if(file.getFileType().equals("Text")){
+       System.out.println("Processing text file: " + file.getFileName());
+      
+    }else if(handlerName);
+     System.out.println(handlerName + "forwards request to" + handler.getHandlerName());
+    handler.process(file);
+  }else{
+     System.out.println("File not supported"");
+  }
+}
+
+  @Override
+  public String getHandlerName() {
+    return handlerName;
+
+  }
+}
+
+//
+public class DocFileHandler implements Handler {
+  private Handler handler;
+  private String handlerName;
+
+  public DocFileHandler(String handlerName) {
+    this.handlerName = handlerName;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Override
+  public void process(File file) {
+
+    if (file.getFileType().equals("Doc")) {
+      System.out.println("Processing doc file: " + file.getFileName());
+    } else if (handler != null) {
+      System.out.println(handlerName + "forwards request to" + handler.getHandlerName());
+      handler.process(file);
+    } else {
+      System.out.println("File not supported");
+    }
+
+  }
+
+  @Override
+  public String getHandlerName() {
+    return handlerName;
+  }
+}
+
+//
+public class AudioFileHandler implements Handler {
+
+  private Handler handler;
+  private String handlerName;
+
+  public AudioFileHandler(String handlerName) {
+    this.handlerName = handlerName;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Override
+  public void process(File file) {
+    if (file.getFileType().equals("Audio")) {
+      System.out.println("Process and saving audio file ... by" + handlerName);
+
+    } else if (handler != null) {
+      System.out.println(handlerName + "forwards request to" + handler.getHandlerName());
+      handler.process(file);
+    } else {
+      System.out.println("File not supported");
+    }
+  }
+
+  @Override
+  public String getHandlerName() {
+    return handlerName;
+  }
+
+}
+
+public class ExcelFileHandler implements Handler {
+
+  private Handler handler;
+  private String handlerName;
+
+  public ExcelFileHandler(String handlerName) {
+    this.handlerName = handlerName;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Override
+  public void process(File file){
+
+    if(file.getFileType().equals("excel")){
+       System.out.println("Process and saving excel file ... by"+ handlerName");
+      
+    }else if(handler!= null){
+       System.out.println(handlerName + "forwards request to" + handler.getHandlerName());
+      handler.process(file);
+    }else{
+       System.out.println("File not supported");
+    }
+  }
+
+  @Override
+  public String getHandlerName() {
+    return handleName;
+
+  }
+}
+
+public class ImageFileHandler implements Handler {
+  private Handler handler;
+  private String handlerName;
+
+  public ImageFileHandler(String handlerName) {
+    this.handlerName = handlerName;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Override
+  public void setHandler(Handler handler) {
+    this.handler = handler;
+  }
+
+  @Override
+  public void process(File file){
+    if(file.getFileType().equals("Image")){
+       System.out.println("Process and saving image file ... by"+ handlerName"");
+    }else if(handler != null){
+       System.out.println(handlerName +"forwards request to " + handler.getHandlerName());
+      handler.process(file);
+    }else{
+       System.out.println("File not supported");
+    }
+  }
+
+  @Override
+  public String getHandlerName() {
+    return handlerName;
+  }
+
+  public class VidioFileHandler implements Handler {
+
+    private Handle handler;
+    private String handleName;
+
+    public VidioFileHandler(String handlerName) {
+      this.handlerName = handlerName;
+    }
+
+    @Override
+    public void setHandler(Handler handler) {
+      this.handler = handler;
+    }
+
+    @Override
+    public void process(File file) {
+
+      if (file.getFileType().equals("video")) {
+        System.out.println("Process and saving video file.. by" + handlerName);
+      } else if (handler != null) {
+        System.out.println(handlerName + "fowards request to" + handler.getHandlerName());
+        handler.process(file);
+      } else {
+        System.out.println("File not supported");
+      }
+    }
+
+    @Override
+    public String getHandlerName() {
+      return handlerName;
+    }
+  }
+
+  //
+  public class TestChaniofResponsibility {
+
+    public static void main(String[] args){
+      File file = null;
+
+      Handler textFileHandler = new TextFileHandler("TextFileHandler");
+      Handler docHandler = new DocFileHandler("DocFileHandler");
+      Handler excelHandler =
+
+    enw ExcelFileHandler("ExcelFileHandler");
+      Handler imageHandler = new ImageFileHandler("ImageFileHandler");
+      Handler vidioHandler = new VidioFileHandler("VidioFileHandler");
+      Handler audioHandler = new AudioFileHandler("AudioFileHandler");
+
+      textHandler.setHandler(doHandler);
+      docHandler.setHandler(excelHandler);
+      excelHandler.setHandler(imageHandler);
+      audioHandler.setHandler(audioHandler);
+      videoHandler.setHandler(videoHandler);
+
+
+      file = new File("file1.mp3", "audio", "C:\\Users\\user\\Desktop");
+      textHandler.process(file);
+
+
+      file = new File("file1.jpg", "video", "C:\\Users\\user\\Desktop");
+      textHandler.process(file);
+
+      file = new File("file1.doc", "doc", "C:\\Users\\user\\Desktop");
+      textHandler.process(file);
+
+      
+      file = new File("file1.bat", "bat", "C:\\Users\\user\\Desktop");
+      textHandler.process(file);
+
+    }
+  }
+}
+// Chapter 11v Flyweight Design Pattern
+
+public class Code {
+
+  private String code;
+
+  public String getCode() {
+    return code;
+  }
+
+  public void setCode(String code) {
+    this.code = code;
+  }
+}
+//
+
+public interface Platform {
+  public void execute(Code code);
+}
+
+public class JavaPlatform implements Platform {
+
+  public JavaPlatform() {
+    System.out.println("JavaPlatform object created");
+  }
+
+  @Override
+  public void execute(Code code) {
+    Sytem.out.println("Executing Java code" + code.getCode());
+  }
+}
+
+//
+public final class PlatformFactory {
+
+  private static Map<String, Platform> map  = new HashMap<>();throw new AssertionError("cannot instantiate the class");
+}
+
+public static synchronized Platform getPlatformInstance(String platformName){
+  Platform platform = map.get(platformName);
+if(platfrom = null){
+  switch(platformType){
+    case "C" : platform = new CPlatform();
+      break;
+    case "CPP" : platform = new CPPlatform();
+      break;
+    case "JAVA" :   platform = new JavaPlatform();
+      break;
+    case "RUBY" : platform = new RubyPlatform();
+      break;
+  }
+  map.put(platformName, platform);
+}
+return platform;
+  
+}
+
+//
+public class TestFlyweightq{
+
+  public static void main(String [] args){
+
+    Code code = new Code();
+    code.setCode("C Code..");
+    Platform platform = PlatformFactory.getPlatformInstance("C");
+    platform.execute(code);
+    System.out.println("**************");
+    code = new Code();
+    code.setCode();
+    platform = PlatformFactory.getPlatformInstance("C");
+    platform.execute(code);
+    System.out.println("*************");
+    code = new Code();
+    code.setCode("Java Code..");
+    platform = PlatformFactory.getPlatformInstance("JAVA");
+    platform.execute(code);
+    System.out.println("**********");
+    code = new Code();
+    code.setCode("JAVA Code..");
+    platform = PlatformFactory.getPlatformInstance("JAVA");
+    platform .execute(code);
+    System.out.println("**********");
+    code = new Code();
+    code.setCode("Ruby Code..");
+    plataform = PlatformFactory.getPlatformInstance("RUBY");
+      platform.execute(code);
+    System.out.println("**********");
+    code = new Code();
+    code.setCode("Ruby Code2..");]
+    platform = PlatformFactory.getPlatformInstance("RUBY");
+    platform.execute(code);
+    
+  }
+}
+
+//
+public class CPlatform implements Platform{
+
+  public CPlatform(){
+    System.out.println("CPlatfrom object created");
+    
+  }
+  @Override
+  public void execute(Code code){
+    System.out.println("Compiling and executing C code");
+  }
+}
+
+public class CPPPlatfrom implements Platform{
+  public CPPPlatfrom(){
+    System.out.println("CPPPlatform object created");
+  }
+
+  @Override
+  public void execute(Code code){
+    System.out.println("Compiling and executing CPP code"");
+  }
+}
+
+public class RudyPlatform implements Platform{
+
+  public RudyPlatform(){
+    System.out.println("RudyPlatform object created");
+  }
+
+  @Override
+  public void execute(Code code){
+    System.out.println("compiling and executing Ruby code");
+  }
+}
+
+// 12 BUiler Design pattern
+
+public class Car{
+  private String bodyStyle;
+  private String power;
+  private String engine;
+  private String break
+  private String seats;
+  private String windows;
+  private String fuelType;
+  private String carType;
+
+  public Car(String carType){
+    this.catType = carType;
+  }
+  public String getBodyStyle() {
+  return bodyStyle;
+  }
+  public void setBodyStyle(String bodyStyle) {
+  this.bodyStyle = bodyStyle;
+  }
+  public String getPower() {
+  return power;
+  }
+  public void setPower(String power) {
+  this.power = power;
+  }
+  public String getEngine() {
+  return engine;
+  }
+  public void setEngine(String engine) {
+  this.engine = engine;
+  }
+  public String getBreaks() {
+  return breaks;
+  }
+  public void setBreaks(String breaks) {
+  this.breaks = breaks;
+  }
+  public String getSeats() {
+  return seats;
+  }
+  public void setSeats(String seats) {
+  this.seats = seats;
+  }
+  public String getWindows() {
+  return windows;
+  }
+  public void setWindows(String windows) {
+  this.windows = windows;
+  }
+  public String getFuelType() {
+  return fuelType;
+  }
+  Java Design Patterns 85 / 173
+  public void setFuelType(String fuelType) {
+  this.fuelType = fuelType;
+  }
+
+@Override
+  public String toString(){
+  StringBuilder sb = StringBuilder();
+  sb.append("----" + carType + "------------\\n");
+  sb.append("Body ");  
+  sb.append(bodyStyle);
+  sb.append("\\n Power: ");
+  sb.append(power);
+  sb.append("\\n Engine: ");
+  sb.append(engine);
+  sb.append("\\n Breaks: ");
+  sb.append(breaks);
+  sb.append("\\n Seats: ");
+  sb.append(seats);
+  sb.append("\\n Windows: ");
+  sb.append(windows);
+  sb.append("\\n Fuel Type: ");
+  sb.append(fuelType);
+
+  return sb.toString();
+  
+  
+}
+
+}
+
+public interface CarBuilder{
+
+  public void buildBodyStyle();
+  public void buildPower();
+  public void buildEngine();
+  public void buildBreaks();
+  public void buildSeats();
+  public void buildWindows();
+  public void buildFuelType();
+  public Car getCar();
+}
+
+/
+/
+
+public class SedanCarBuilder implements CarBuilder{
+
+  private final Car car = new Car("Sedan");
+
+  @Override
+  public void buildBodyStyle(){
+    car.setBodyStyle("External dimensions: overall length (inches): 202.9, " +
+                     "overall width (inches): 76.2, overall height (inches): ←-
+                     60.7, wheelbase (inches): 112.9," +
+                     " front track (inches): 65.3, rear track (inches): 65.5 and ←-
+                     curb to curb turning circle (feet): 39.5");
+  }
+
+  @Override
+  public void builderPower(){
+    car.setPower("Power: 3,500 hp @ 6,000 rpm");
+  }
+  @Override
+  public void buildEngine() {
+  car.setEngine("3.5L Duramax V 6 DOHC");
+  }
+  @Override
+  public void buildBreaks() {
+  car.setBreaks("Four-wheel disc brakes: two ventilated. Electronic brake ←-
+  distribution");
+  }
+  @Override
+  public void buildSeats() {
+  car.setSeats("Front seat center armrest.Rear seat center armrest.Split- ←-
+  folding rear seats");
+  }
+  @Override
+  public void buildWindows() {
+  car.setWindows("Laminated side windows.Fixed rear window with defroster");
+  }
+  @Override
+  public void buildFuelType() {
+  car.setFuelType("Gasoline 19 MPG city, 29 MPG highway, 23 MPG combined and ←-
+  437 mi. range");
+  }
+
+  @Overrie
+  public Car getCar() {
+    return car;
+  }
+}
+//
+public class SportsCarBuilder implements CarBuilder{
+private final Car car = new Car("SPORTS");
+@Override
+public void buildBodyStyle() {
+car.setBodyStyle("External dimensions: overall length (inches): 192.3," +
+" overall width (inches): 75.5, overall height (inches): ←-
+54.2, wheelbase (inches): 112.3," +
+" front track (inches): 63.7, rear track (inches): 64.1 and ←-
+curb to curb turning circle (feet): 37.7");
+}
+@Override
+public void buildPower(){
+car.setPower("323 hp @ 6,800 rpm; 278 ft lb of torque @ 4,800 rpm");
+}
+Java Design Patterns 87 / 173
+@Override
+public void buildEngine() {
+car.setEngine("3.6L V 6 DOHC and variable valve timing");
+}
+@Override
+public void buildBreaks() {
+car.setBreaks("Four-wheel disc brakes: two ventilated. Electronic brake ←-
+distribution. StabiliTrak stability control");
+}
+@Override
+public void buildSeats() {
+car.setSeats("Driver sports front seat with one power adjustments manual ←-
+height, front passenger seat sports front seat with one power ←-
+adjustments");
+}
+@Override
+public void buildWindows() {
+car.setWindows("Front windows with one-touch on two windows");
+}
+@Override
+public void buildFuelType() {
+car.setFuelType("Gasoline 17 MPG city, 28 MPG highway, 20 MPG combined and ←-
+380 mi. range");
+}
+@Override
+public Car getCar(){
+return car;
+}
+}
+public class TestBuilderPattern{
+
+  public static void main(String [] args){
+    CarBuilder carBuilder = new SedanCarBuilder();
+    CarDirector director = new CarDirector(carBuilder);
+    director.build();
+    Car car = carbuilder.getCar();
+    System.out.println(car);
+
+
+    carBuilder = new SportsCarBuilder();
+    director = new CarDirector(carBuilder);
+    director.build();
+    car = carBuilder.getCar();
+    System.out.println(car);
+  }
+}
+
+//
+
+public class Form{
+  privae String firstName;
+  private String lastName;
+  private String userName;
+  private String password;
+  private String address;
+  private Date dob;
+  private String email;
+  private String backupEmail;
+  private String spouseName;
+  private String city;
+  Java Design Patterns 89 / 173
+  private String state;
+  private String country;
+  private String language;
+  private String passwordHint;
+  private String secuirtyQuestion;
+  private String securityAnswer;
+  }
+
+}
+
+//
+public Form(String firstName String LastName){
+  this(firstName, lastName, null, null);
+}
+
+public Form(String firstName,String lastName,String userName,String password){
+this(firstName,lastName,userName,password,null,null);
+}
+public Form(String firstName,String lastName,String userName,String password,String address ←-
+,Date dob){
+this(firstName,lastName,userName,password,address,dob,null,null);
+}
+public Form(String firstName,String lastName,String userName,String password,String address ←-
+,Date dob,String email,String backupEmail){
+...
+}
+
+//
+public class Form{
+
+  private String firstName;
+  private String lastName;
+  private String userName;
+  private String password;
+  private String address;
+  private Date dob;
+  private String email;
+  private String backupEmail;
+  private String spouseName;
+  private String city;
+  private String state;
+  private String country;
+  private String language;
+  private String passwordHint;
+  private String securityQuestion;
+  private String securityAnswer;
+
+
+  public static class FormBuilder{
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String password;
+    private String address;
+    private Date dob;
+    private String email;
+    private String backupEmail;
+    private String spouseName;
+    private String city;
+    private String state;
+    private String country;
+    private String language;
+    private String passwordHint;
+    private String securityQuestion;
+    private String securityAnswer;
+
+
+    public FormBuilder(String firstName,String lastName){
+
+      this.firstName = firstName;
+      this.lastName = lastName;
+      this.userName = userName;
+      this.password = password;
+      }
+
+    public FormBuilder(String firstName,String lastName,String userName,String password)
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.userName = userName;
+    this.password = password;
+
+    return this;
+    
+    }public FormBuilder backupEmail(String backupEmail){
+    Java Design Patterns 91 / 173
+    this.backupEmail = backupEmail;
+    return this;
+    }
+    public FormBuilder spouseName(String spouseName){
+    this.spouseName = spouseName;
+    return this;
+    }
+    public FormBuilder city(String city){
+    this.city = city;
+    return this;
+    }
+    public FormBuilder state(String state){
+    this.state = state;
+    return this;
+    }
+    public FormBuilder country(String country){
+    this.country = country;
+    return this;
+    }
+    public FormBuilder language(String language){
+    this.language = language;
+    return this;
+    }
+    public FormBuilder passwordHint(String passwordHint){
+    this.passwordHint = passwordHint;
+    return this;
+    }
+    public FormBuilder securityQuestion(String securityQuestion){
+    this.securityQuestion = securityQuestion;
+    return this;
+    }
+    public FormBuilder securityAnswer(String securityAnswer){
+    this.securityAnswer = securityAnswer;
+    return this;
+    }
+    public Form build(){
+    return new Form(this);
+    }
+    }
+
+
+  private Form(FormBuilder Formbuilder){
+    this.firstName = formBuilder.firstName;
+    this.lastName = formBuilder.lastName;
+    this.userName = formBuilder.userName;
+    this.password = formBuilder.password;
+    this.address = formBuilder.address;
+    this.dob = formBuilder.dob;
+    this.email = formBuilder.email;
+    this.backupEmail = formBuilder.backupEmail;
+    this.spouseName = formBuilder.spouseName;
+    this.city = formBuilder.city;
+    this.state = formBuilder.state;
+    Java Design Patterns 92 / 173
+    this.country = formBuilder.country;
+    this.language = formBuilder.language;
+    this.passwordHint = formBuilder.passwordHint;
+    this.securityQuestion = formBuilder.securityQuestion;
+    this.securityAnswer = formBuilder.securityAnswer;
+    }
+
+  @Override
+  public String toString(){
+
+    StringBuilder sb  = new StringBuilder();
+
+    sb.append(" First Name: ");
+    sb.append(firstName);
+    sb.append("\\n Last Name: ");
+    sb.append(lastName);
+    sb.append("\\n User Name: ");
+    sb.append(userName);
+    sb.append("\\n Password: ");
+    sb.append(password);
+
+
+if(this.address != null){
+  sb.append("\\n Address: ");
+  sb.append(address);
+}
+    if(this.dob!=null){
+    sb.append("\\n DOB: ");
+    sb.append(dob);
+    }
+    if(this.email!=null){
+    sb.append("\\n Email: ");
+    sb.append(email);
+    }
+    if(this.backupEmail!=null){
+    sb.append("\\n Backup Email: ");
+    sb.append(backupEmail);
+    }
+    if(this.spouseName!=null){
+    sb.append("\\n Spouse Name: ");
+    sb.append(spouseName);
+    }
+    if(this.city!=null){
+    sb.append("\\n City: ");
+    sb.append(city);
+    }
+    if(this.state!=null){
+    sb.append("\\n State: ");
+    sb.append(state);
+    }
+    if(this.country!=null){
+    sb.append("\\n Country: ");
+    sb.append(country);
+    }
+    if(this.language!=null){
+    sb.append("\\n Language: ");
+    sb.append(language);
+    }
+    if(this.passwordHint!=null){
+    sb.append("\\n Password Hint: ");
+    sb.append(passwordHint);
+    }
+    if(this.securityQuestion!=null){
+    sb.append("\\n Security Question: ");
+    sb.append(securityQuestion);
+    Java Design Patterns 93 / 173
+    }
+    if(this.securityAnswer!=null){
+    sb.append("\\n Security Answer: ");
+    sb.append(securityAnswer);
+    }
+
+   return sb.toString();
+
+  }
+  public static void main(String[] args){
+    Form form = new Form.FormBuilder(("Dave", "Carter", "DavCarter", "DAvCaEr123 ←-
+                                    ").passwordHint("MyName").city("NY").language("En").build();
+    System.out.println(form);
+  }
+
+  //Java Design Patterns
+  104/183
+  
+    
+  Chapter 13
+  Factory Method Design Pattern ing ~
